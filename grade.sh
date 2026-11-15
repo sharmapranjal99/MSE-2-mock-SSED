@@ -19,8 +19,8 @@ check "register accepted (202)"                   "[ \"\$(curl -s -o /dev/null -
 sleep 4
 check "RabbitMQ queue exists"                     "curl -fs -u $RABBITMQ_USER:$RABBITMQ_PASS http://127.0.0.1:15672/api/queues | grep -q registration_emails"
 check "worker delivered email to MailHog"         "curl -fs http://127.0.0.1:8025/api/v2/messages | grep -q 'asha@example.com'"
-printf 'fake-image-bytes' > /tmp/ch-test.png
-URL=$(curl -fs -X POST $BASE/api/events/1/image -F "image=@/tmp/ch-test.png;type=image/png" | sed -E 's/.*"url":"([^"]+)".*/\1/')
+printf 'fake-image-bytes' > /c/Users/hp/AppData/Local/Temp/ch-test.png
+URL=$(curl -fs -X POST $BASE/api/events/1/image -F "image=@C:/Users/hp/AppData/Local/Temp/ch-test.png;type=image/png" | sed -E 's/.*"url":"([^"]+)".*/\1/')
 check "upload stored in MinIO, served at /storage" "curl -fs $BASE$URL | grep -q fake-image-bytes"
 $DC down >/dev/null 2>&1; $DC up -d --wait --wait-timeout 300 >/dev/null 2>&1
 check "Postgres data survives down/up"            "curl -fs $BASE/api/events | grep -q '\"registrations\":1'"
